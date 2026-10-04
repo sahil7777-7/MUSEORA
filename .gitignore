@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Environment / secrets
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Internal project documentation
+MUSEORA — AI and Developer Rules.md
+MUSEORA — Architecture.md
+MUSEORA — Project Vision and Product Direction.md
+MUSEORA — Requirements.md
+MUSEORA — Tasks and Roadmap.md
+MUSEORA.md
+museora_fix_and_upgrade_plan.md
+project_progress.md
+
+# Temporary/reference files
+pasted_content.txt
