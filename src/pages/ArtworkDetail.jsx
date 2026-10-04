@@ -28,7 +28,6 @@ export default function ArtworkDetail() {
   const abortControllerRef = useRef(null);
 
   const loadArtwork = useCallback(async () => {
-    window.scrollTo(0, 0);
     setIsPlayingAudio(false);
     setError(null);
     setLoading(true);

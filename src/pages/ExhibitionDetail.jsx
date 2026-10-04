@@ -16,7 +16,6 @@ export default function ExhibitionDetail() {
   const [selectedArtwork, setSelectedArtwork] = useState(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
   }, [id]);
 
   const handleSelectArtworkNode = (artId) => {

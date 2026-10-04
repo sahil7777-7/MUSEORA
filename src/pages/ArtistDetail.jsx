@@ -14,7 +14,6 @@ export default function ArtistDetail() {
   const artist = ARTISTS.find((a) => a.id === id) || ARTISTS[0];
 
   useEffect(() => {
-    window.scrollTo(0, 0);
   }, [id]);
 
   const artistArtworks = ARTWORKS.filter((a) => a.artistId === artist.id || a.artist === artist.name);

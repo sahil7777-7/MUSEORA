@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -26,6 +26,14 @@ const Admin = lazy(() => import('./pages/Admin'));
 
 import { AnimatePresence } from 'framer-motion';
 
+function ScrollToTop() {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+  return null;
+}
+
 function AppContent() {
   const [curatorOpen, setCuratorOpen] = useState(false);
   const location = useLocation();
@@ -35,6 +43,7 @@ function AppContent() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+      <ScrollToTop />
       <a href="#main-content" className="skip-to-content">Skip to content</a>
       <div className="grain-overlay" aria-hidden="true" />
       <CustomCursor />
@@ -95,7 +104,7 @@ export default function App() {
   return (
     <>
       {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
-      <Router>
+      <Router basename={import.meta.env.BASE_URL}>
         <AppContent />
       </Router>
     </>
