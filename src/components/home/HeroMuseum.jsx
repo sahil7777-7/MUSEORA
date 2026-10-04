@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import MuseumScene from '../3d/MuseumScene';
 import HeroArtifact from '../3d/HeroArtifact';
 import MagneticButton from '../ui/MagneticButton';
+import {
+  museoHeroEyebrow,
+  museoHeroTitle,
+  museoHeroSubtitle,
+  museoHeroCta,
+} from '../../utils/motionVariants';
 
 export default function HeroMuseum() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -74,9 +80,9 @@ export default function HeroMuseum() {
       >
         {/* Animated Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          variants={museoHeroEyebrow}
+          initial="hidden"
+          animate="visible"
           className="badge-gold"
           style={{ marginBottom: '1.5rem' }}
         >
@@ -86,9 +92,9 @@ export default function HeroMuseum() {
 
         {/* Shimmer Display Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0, delay: 0.4 }}
+          variants={museoHeroTitle}
+          initial="hidden"
+          animate="visible"
           className="font-serif font-hero"
           style={{ color: '#F5F1E8', textTransform: 'uppercase', maxWidth: '1100px', fontWeight: 300 }}
         >
@@ -98,9 +104,9 @@ export default function HeroMuseum() {
 
         {/* Subheading */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          variants={museoHeroSubtitle}
+          initial="hidden"
+          animate="visible"
           style={{
             marginTop: '1.5rem',
             fontSize: 'clamp(0.9rem, 1.5vw, 1.15rem)',
@@ -116,9 +122,9 @@ export default function HeroMuseum() {
 
         {/* Magnetic Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          variants={museoHeroCta}
+          initial="hidden"
+          animate="visible"
           style={{ marginTop: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}
         >
           <MagneticButton variant="primary" onClick={() => navigate('/tour')}>

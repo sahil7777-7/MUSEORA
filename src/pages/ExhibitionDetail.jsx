@@ -29,7 +29,7 @@ export default function ExhibitionDetail() {
     <PageTransition>
       <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', paddingTop: '7rem', paddingBottom: '8rem' }}>
         <div className="museo-container">
-          <div className="museo-flex-between" style={{ marginBottom: '2rem' }}>
+          <div className="museo-flex-between museo-entrance-nav museo-delay-1" style={{ marginBottom: '2rem' }}>
             <button
               onClick={() => {
                 museumAudio.playClickSound();
@@ -60,10 +60,10 @@ export default function ExhibitionDetail() {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{ marginBottom: '3rem' }}
           >
             <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>

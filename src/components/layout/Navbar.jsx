@@ -62,6 +62,7 @@ export default function Navbar({ onOpenCurator }) {
         {/* Brand Logo */}
         <Link
           to="/"
+          className="museo-entrance-nav museo-delay-1"
           onMouseEnter={() => museumAudio.playHoverSound()}
           style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', flexShrink: 0 }}
           data-cursor="click"
@@ -118,7 +119,7 @@ export default function Navbar({ onOpenCurator }) {
 
         {/* Desktop Nav Links */}
         <nav
-          className="desktop-nav font-sans"
+          className="desktop-nav font-sans museo-entrance-nav museo-delay-2"
           style={{
             fontSize: '0.75rem',
             letterSpacing: '0.2em',
@@ -167,7 +168,7 @@ export default function Navbar({ onOpenCurator }) {
         </nav>
 
         {/* Action Items */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+        <div className="museo-entrance-nav museo-delay-3" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
           {/* Sound Synthesizer Equalizer Toggle */}
           <button
             onClick={toggleSound}

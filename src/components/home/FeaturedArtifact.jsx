@@ -7,10 +7,10 @@ import MagneticButton from '../ui/MagneticButton';
 import { Sparkles, Compass } from 'lucide-react';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 28 },
   visible: { 
     opacity: 1, y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] }
   }
 };
 
@@ -18,7 +18,7 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.12, delayChildren: 0.12 }
   }
 };
 
@@ -56,10 +56,17 @@ export default function FeaturedArtifact() {
       />
 
       <div className="museo-container" style={{ position: 'relative', zIndex: 10 }}>
-        <div className="badge-gold" style={{ marginBottom: '1.25rem' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="badge-gold"
+          style={{ marginBottom: '1.25rem' }}
+        >
           <Sparkles style={{ width: '14px', height: '14px' }} />
           <span>FEATURED MASTERWORK</span>
-        </div>
+        </motion.div>
 
         <div className="museo-grid-2" style={{ alignItems: 'center' }}>
           {/* Metadata */}
@@ -117,46 +124,53 @@ export default function FeaturedArtifact() {
           </motion.div>
 
           {/* Artwork Card */}
-          <TiltCard dataCursor="view" className="glass-panel" style={{ padding: '0.75rem' }}>
-            <div style={{ position: 'relative', width: '100%', minHeight: '350px', maxHeight: '480px', borderRadius: '8px', overflow: 'hidden' }}>
-              <img
-                src={FEATURED_ARTIFACT.image}
-                alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, #0B0A08 0%, transparent 60%)',
-                  opacity: 0.8,
-                }}
-              />
+          <motion.div
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <TiltCard dataCursor="view" className="glass-panel" style={{ padding: '0.75rem' }}>
+              <div style={{ position: 'relative', width: '100%', minHeight: '350px', maxHeight: '480px', borderRadius: '8px', overflow: 'hidden' }}>
+                <img
+                  src={FEATURED_ARTIFACT.image}
+                  alt=""
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, #0B0A08 0%, transparent 60%)',
+                    opacity: 0.8,
+                  }}
+                />
 
-              <div
-                className="font-mono"
-                style={{
-                  position: 'absolute',
-                  bottom: '1rem',
-                  left: '1rem',
-                  right: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  fontSize: '0.7rem',
-                  color: 'var(--cream)',
-                  flexWrap: 'wrap',
-                  gap: '0.5rem',
-                }}
-              >
-                <div className="badge-cream" style={{ backgroundColor: 'rgba(11, 10, 8, 0.85)', backdropFilter: 'blur(8px)', fontSize: '0.65rem' }}>
-                  <Compass style={{ width: '12px', height: '12px', color: 'var(--gold)' }} />
-                  <span>3D MODEL READY</span>
+                <div
+                  className="font-mono"
+                  style={{
+                    position: 'absolute',
+                    bottom: '1rem',
+                    left: '1rem',
+                    right: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontSize: '0.7rem',
+                    color: 'var(--cream)',
+                    flexWrap: 'wrap',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <div className="badge-cream" style={{ backgroundColor: 'rgba(11, 10, 8, 0.85)', backdropFilter: 'blur(8px)', fontSize: '0.65rem' }}>
+                    <Compass style={{ width: '12px', height: '12px', color: 'var(--gold)' }} />
+                    <span>3D MODEL READY</span>
+                  </div>
+                  <span className="text-gold-pure" style={{ letterSpacing: '0.2em' }}>SLOT #001</span>
                 </div>
-                <span className="text-gold-pure" style={{ letterSpacing: '0.2em' }}>SLOT #001</span>
               </div>
-            </div>
-          </TiltCard>
+            </TiltCard>
+          </motion.div>
         </div>
       </div>
     </section>

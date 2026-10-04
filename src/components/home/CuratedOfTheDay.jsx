@@ -8,11 +8,11 @@ import LazyCard from '../ui/LazyCard';
 import { Calendar, Compass } from 'lucide-react';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -20,7 +20,7 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.12 },
   },
 };
 
@@ -53,15 +53,28 @@ export default function CuratedOfTheDay() {
       }}
     >
       <div className="museo-container" style={{ position: 'relative', zIndex: 10 }}>
-        <div className="badge-gold" style={{ marginBottom: '1.25rem' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="badge-gold"
+          style={{ marginBottom: '1.25rem' }}
+        >
           <Calendar style={{ width: '13px', height: '13px' }} />
           <span>CURATED COLLECTION OF THE DAY</span>
-        </div>
+        </motion.div>
 
         <div className="museo-grid-2" style={{ alignItems: 'center', gap: '3.5rem' }}>
           {/* Artwork Card Left */}
-          <LazyCard placeholderHeight="400px">
-            <TiltCard dataCursor="view" className="glass-panel" style={{ padding: '0.75rem' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <LazyCard placeholderHeight="400px">
+              <TiltCard dataCursor="view" className="glass-panel" style={{ padding: '0.75rem' }}>
               <div
                 style={{
                   position: 'relative',
@@ -124,6 +137,7 @@ export default function CuratedOfTheDay() {
               </div>
             </TiltCard>
           </LazyCard>
+        </motion.div>
 
           {/* Metadata Right */}
           <motion.div

@@ -8,7 +8,7 @@ export default function MuseumMapPage() {
       <div className="min-h-screen bg-[#0B0A08] text-[#F5F1E8] pt-32 pb-32">
         <div className="max-w-[1680px] mx-auto px-6 md:px-12">
           {/* Header */}
-          <div className="border-b border-[#E8E0D0]/10 pb-12 mb-12">
+          <div className="border-b border-[#E8E0D0]/10 pb-12 mb-12 museo-entrance-fade-up">
             <span className="font-mono text-xs text-[#C6A56B] tracking-[0.25em] uppercase block mb-3">
               MUSEORA SPATIAL NAVIGATION
             </span>

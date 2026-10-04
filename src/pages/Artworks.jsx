@@ -47,10 +47,10 @@ export default function Artworks() {
         <div className="museo-container">
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{ borderBottom: '1px solid var(--line)', paddingBottom: 'var(--space-12)', marginBottom: 'var(--space-12)' }}
           >
             <span className="font-mono text-gold-pure" style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>
@@ -66,10 +66,10 @@ export default function Artworks() {
 
           {/* Filter Bar */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="museo-flex-between" style={{ flexWrap: 'wrap', paddingBottom: 'var(--space-12)', borderBottom: '1px solid var(--line)', marginBottom: 'var(--space-12)', gap: 'var(--space-6)' }}
           >
             {/* Category Chips */}
@@ -181,10 +181,10 @@ export default function Artworks() {
                 return (
                   <motion.div
                     key={art.id}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.5, delay: Math.min(index * 0.06, 0.4), ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.8, delay: Math.min(index * 0.05, 0.35), ease: [0.16, 1, 0.3, 1] }}
                   >
                     <LazyCard placeholderHeight="400px">
                       <TiltCard

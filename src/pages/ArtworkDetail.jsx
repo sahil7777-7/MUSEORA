@@ -139,7 +139,7 @@ export default function ArtworkDetail() {
     <PageTransition>
       <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', paddingTop: 'var(--space-24)', paddingBottom: 'var(--space-24)' }}>
         {/* Top Back Navigation Bar */}
-        <div className="museo-container museo-flex-between" style={{ marginBottom: '1.5rem' }}>
+        <div className="museo-container museo-flex-between museo-entrance-nav museo-delay-1" style={{ marginBottom: '1.5rem' }}>
           <button
             onClick={() => {
               museumAudio.playClickSound();
@@ -191,7 +191,12 @@ export default function ArtworkDetail() {
         <div className="museo-container" style={{ marginBottom: '4rem' }}>
           <div className="museo-grid-2" style={{ alignItems: 'start', gap: '3.5rem' }}>
             {/* 3D Model Viewer & Media Container */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+            >
               <ArtworkViewer3D artwork={artwork} />
 
               {/* View High-Res Image Button */}
@@ -217,13 +222,13 @@ export default function ArtworkDetail() {
                   <span>OPEN HIGH-RESOLUTION LIGHTBOX</span>
                 </button>
               )}
-            </div>
+            </motion.div>
 
             {/* Metadata Surround */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
             >
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -334,10 +339,10 @@ export default function ArtworkDetail() {
 
         {/* Curatorial Essay & Provenance */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="museo-container"
           style={{ paddingTop: '3rem', paddingBottom: '3rem', borderTop: '1px solid rgba(232, 224, 208, 0.1)' }}
         >
@@ -367,7 +372,14 @@ export default function ArtworkDetail() {
         </motion.div>
 
         {/* Related Works */}
-        <div className="museo-container" style={{ paddingTop: '3rem', borderTop: '1px solid rgba(232, 224, 208, 0.1)' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="museo-container"
+          style={{ paddingTop: '3rem', borderTop: '1px solid rgba(232, 224, 208, 0.1)' }}
+        >
           <div className="museo-flex-between" style={{ marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
             <h2 className="font-serif font-section-heading" style={{ color: 'var(--text-primary)', textTransform: 'uppercase' }}>
               RELATED MASTERWORKS
@@ -378,34 +390,41 @@ export default function ArtworkDetail() {
           </div>
 
           <div className="museo-grid-3">
-            {relatedWorks.map((art) => (
-              <TiltCard
+            {relatedWorks.map((art, idx) => (
+              <motion.div
                 key={art.id}
-                onClick={() => navigate(`/artworks/${art.id}`)}
-                dataCursor="view"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: Math.min(idx * 0.08, 0.25), ease: [0.16, 1, 0.3, 1] }}
               >
-                <div style={{ position: 'relative', height: '320px', overflow: 'hidden', padding: '1.25rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <ImageWithFallback
-                    src={art.image}
-                    alt=""
-                    fallbackTitle={art.title}
-                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.65 }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, rgba(11, 10, 8, 0.4) 50%, transparent 100%)' }} />
-                  <span className="font-mono badge-cream" style={{ position: 'relative', zIndex: 10, alignSelf: 'flex-start' }}>
-                    {art.category}
-                  </span>
-                  <div style={{ position: 'relative', zIndex: 10, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                    <h3 className="font-serif" style={{ fontSize: '1.35rem', color: 'var(--text-primary)' }}>
-                      {art.title}
-                    </h3>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>BY {art.artist}</p>
+                <TiltCard
+                  onClick={() => navigate(`/artworks/${art.id}`)}
+                  dataCursor="view"
+                >
+                  <div style={{ position: 'relative', height: '320px', overflow: 'hidden', padding: '1.25rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <ImageWithFallback
+                      src={art.image}
+                      alt=""
+                      fallbackTitle={art.title}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.65 }}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, rgba(11, 10, 8, 0.4) 50%, transparent 100%)' }} />
+                    <span className="font-mono badge-cream" style={{ position: 'relative', zIndex: 10, alignSelf: 'flex-start' }}>
+                      {art.category}
+                    </span>
+                    <div style={{ position: 'relative', zIndex: 10, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <h3 className="font-serif" style={{ fontSize: '1.35rem', color: 'var(--text-primary)' }}>
+                        {art.title}
+                      </h3>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>BY {art.artist}</p>
+                    </div>
                   </div>
-                </div>
-              </TiltCard>
+                </TiltCard>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         <Lightbox
           image={artwork.highResImage || artwork.image}

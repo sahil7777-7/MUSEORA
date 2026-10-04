@@ -66,6 +66,7 @@ export default function VirtualTour() {
       >
         {/* Header */}
         <div
+          className="museo-entrance-nav"
           style={{
             position: 'relative',
             zIndex: 10,
@@ -162,6 +163,7 @@ export default function VirtualTour() {
 
         {/* Bottom Control Bar */}
         <div
+          className="museo-entrance-fade-up museo-delay-2"
           style={{
             position: 'relative',
             zIndex: 10,

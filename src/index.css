@@ -39,26 +39,44 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'DM Mono', 'IBM Plex Mono', ui-monospace, monospace;
 
-  --text-xs: 0.65rem;   /* 10.4px — badges, micro-labels */
-  --text-sm: 0.75rem;   /* 12px   — captions, metadata */
-  --text-base: 0.875rem;/* 14px   — body default */
-  --text-md: 0.95rem;   /* 15.2px — body comfortable */
-  --text-lg: 1.05rem;   /* 16.8px — lead paragraphs */
+  --text-xs: 0.65rem;
+  /* 10.4px — badges, micro-labels */
+  --text-sm: 0.75rem;
+  /* 12px   — captions, metadata */
+  --text-base: 0.875rem;
+  /* 14px   — body default */
+  --text-md: 0.95rem;
+  /* 15.2px — body comfortable */
+  --text-lg: 1.05rem;
+  /* 16.8px — lead paragraphs */
 
   /* ── 3. Spacing Scale ─────────────────────────────────────── */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
-  --space-20: 5rem;     /* 80px */
-  --space-24: 6rem;     /* 96px */
-  --space-32: 8rem;     /* 128px */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-5: 1.25rem;
+  /* 20px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-10: 2.5rem;
+  /* 40px */
+  --space-12: 3rem;
+  /* 48px */
+  --space-16: 4rem;
+  /* 64px */
+  --space-20: 5rem;
+  /* 80px */
+  --space-24: 6rem;
+  /* 96px */
+  --space-32: 8rem;
+  /* 128px */
 
   /* ── 4. Radii ─────────────────────────────────────────────── */
   --radius-sm: 4px;
@@ -70,9 +88,11 @@
   /* ── 5. Transitions ───────────────────────────────────────── */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 0.15s;
   --duration-normal: 0.3s;
   --duration-slow: 0.5s;
+  --duration-cinematic: 0.85s;
 
   /* ── 6. Focus ─────────────────────────────────────────────── */
   --focus-ring: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--gold);
@@ -87,13 +107,16 @@
 /* ═══════════════════════════════════════════════════════════════
    Global Reset & Base
    ═══════════════════════════════════════════════════════════════ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -124,6 +147,7 @@ html, body {
   text-decoration: none;
   border-radius: var(--radius-sm);
 }
+
 .skip-to-content:focus {
   top: var(--space-4);
 }
@@ -136,13 +160,16 @@ html, body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--bg-elevated);
   border-radius: var(--radius-sm);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--bronze);
 }
@@ -199,6 +226,7 @@ html {
   .desktop-nav {
     display: none;
   }
+
   .mobile-toggle {
     display: flex;
     align-items: center;
@@ -224,6 +252,7 @@ html {
   grid-template-columns: 1fr;
   gap: var(--space-8);
 }
+
 @media (min-width: 1024px) {
   .museo-grid-2 {
     grid-template-columns: repeat(2, 1fr);
@@ -236,12 +265,14 @@ html {
   grid-template-columns: 1fr;
   gap: var(--space-6);
 }
+
 @media (min-width: 640px) {
   .museo-grid-3 {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-8);
   }
 }
+
 @media (min-width: 1280px) {
   .museo-grid-3 {
     grid-template-columns: repeat(3, 1fr);
@@ -254,12 +285,14 @@ html {
   grid-template-columns: 1fr;
   gap: var(--space-6);
 }
+
 @media (min-width: 640px) {
   .museo-grid-4 {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-6);
   }
 }
+
 @media (min-width: 1024px) {
   .museo-grid-4 {
     grid-template-columns: repeat(4, 1fr);
@@ -272,12 +305,14 @@ html {
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
 }
+
 @media (min-width: 768px) {
   .museo-grid-6 {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
   }
 }
+
 @media (min-width: 1280px) {
   .museo-grid-6 {
     grid-template-columns: repeat(6, 1fr);
@@ -289,16 +324,30 @@ html {
 /* ═══════════════════════════════════════════════════════════════
    Typography
    ═══════════════════════════════════════════════════════════════ */
-h1, h2, h3, h4, h5, h6, .font-serif {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-serif {
   font-family: var(--font-serif);
   letter-spacing: 0.04em;
   font-weight: 400;
   line-height: 1.15;
 }
 
-.font-serif { font-family: var(--font-serif); }
-.font-sans  { font-family: var(--font-sans); }
-.font-mono  { font-family: var(--font-mono); }
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
 
 /* Heading scale — fluid, clamped */
 .font-hero {
@@ -571,28 +620,126 @@ a {
    Keyframe Animations — Restrained
    ═══════════════════════════════════════════════════════════════ */
 @keyframes skeletonShimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes breatheScale {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.06); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
 }
 
 @keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes soundWave {
-  0%, 100% { height: 4px; }
-  50%      { height: 14px; }
+
+  0%,
+  100% {
+    height: 4px;
+  }
+
+  50% {
+    height: 14px;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes museoFadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes museoFadeDownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes museoScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Cinematic Editorial Entrance Utilities ───────────────── */
+.museo-entrance-fade-up {
+  animation: museoFadeUpIn var(--duration-cinematic) var(--ease-cinematic) both;
+}
+
+.museo-entrance-nav {
+  animation: museoFadeDownIn 0.8s var(--ease-cinematic) both;
+}
+
+.museo-entrance-scale {
+  animation: museoScaleIn var(--duration-cinematic) var(--ease-cinematic) both;
+}
+
+.museo-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.museo-delay-2 {
+  animation-delay: 0.16s;
+}
+
+.museo-delay-3 {
+  animation-delay: 0.28s;
+}
+
+.museo-delay-4 {
+  animation-delay: 0.42s;
+}
+
+.museo-delay-5 {
+  animation-delay: 0.60s;
 }
 
 
@@ -605,8 +752,14 @@ a {
   border-radius: 1px;
   animation: soundWave 1.2s ease-in-out infinite alternate;
 }
-.soundwave-bar:nth-child(2) { animation-delay: 0.2s; }
-.soundwave-bar:nth-child(3) { animation-delay: 0.4s; }
+
+.soundwave-bar:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.soundwave-bar:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -659,6 +812,7 @@ a {
    Custom Cursor (Desktop with fine pointer only)
    ═══════════════════════════════════════════════════════════════ */
 @media (hover: hover) and (pointer: fine) {
+
   .custom-cursor-active,
   .custom-cursor-active * {
     cursor: none !important;
@@ -672,18 +826,27 @@ a {
 .viewer-3d-container {
   height: 360px;
 }
+
 @media (min-width: 768px) {
-  .viewer-3d-container { height: 460px; }
+  .viewer-3d-container {
+    height: 460px;
+  }
 }
+
 @media (min-width: 1024px) {
-  .viewer-3d-container { height: 580px; }
+  .viewer-3d-container {
+    height: 580px;
+  }
 }
 
 
 /* ═══════════════════════════════════════════════════════════════
    Utility: Hide Scrollbar
    ═══════════════════════════════════════════════════════════════ */
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -694,6 +857,7 @@ a {
    Reduced Motion — respect user preference
    ═══════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -715,5 +879,13 @@ a {
   .text-gold-gradient {
     -webkit-text-fill-color: var(--gold);
     background: none;
+  }
+
+  .museo-entrance-fade-up,
+  .museo-entrance-nav,
+  .museo-entrance-scale {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

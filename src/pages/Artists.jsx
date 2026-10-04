@@ -16,10 +16,10 @@ export default function Artists() {
       <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', paddingTop: '8rem', paddingBottom: '8rem' }}>
         <div className="museo-container">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{ borderBottom: '1px solid rgba(232, 224, 208, 0.1)', paddingBottom: '3rem', marginBottom: '4rem' }}
           >
             <span className="font-mono text-gold-pure" style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>
@@ -37,10 +37,10 @@ export default function Artists() {
             {ARTISTS.map((artist, index) => (
               <motion.div
                 key={artist.id}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: Math.min(index * 0.06, 0.5), ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.85, delay: Math.min(index * 0.08, 0.35), ease: [0.16, 1, 0.3, 1] }}
               >
                 <LazyCard placeholderHeight="480px">
                   <TiltCard

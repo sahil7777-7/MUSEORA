@@ -33,7 +33,7 @@ export default function Timeline() {
         }}
       >
         <div className="museo-container">
-          <div className="museo-flex-between" style={{ flexWrap: 'wrap', borderBottom: '1px solid rgba(232, 224, 208, 0.1)', paddingBottom: '2rem', marginBottom: '3rem', gap: '1.5rem' }}>
+          <div className="museo-flex-between museo-entrance-fade-up" style={{ flexWrap: 'wrap', borderBottom: '1px solid rgba(232, 224, 208, 0.1)', paddingBottom: '2rem', marginBottom: '3rem', gap: '1.5rem' }}>
             <div>
               <div className="badge-gold" style={{ marginBottom: '0.75rem' }}>
                 <Clock style={{ width: '14px', height: '14px' }} />
