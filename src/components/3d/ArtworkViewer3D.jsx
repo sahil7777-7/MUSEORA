@@ -450,20 +450,244 @@ function NatarajaModel() {
   );
 }
 
+function VenusDeMiloModel() {
+  const groupRef = useRef();
+  const torsoRef = useRef();
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      // Graceful classical rotation
+      groupRef.current.rotation.y += delta * 0.14;
+    }
+    if (torsoRef.current) {
+      // Subtle organic breathing motion
+      const t = state.clock.elapsedTime;
+      torsoRef.current.position.y = 0.22 + Math.sin(t * 1.1) * 0.012;
+      torsoRef.current.rotation.z = 0.04 + Math.sin(t * 0.8) * 0.008;
+    }
+  });
+
+  const marbleMaterial = (
+    <meshStandardMaterial
+      color="#EFE8DC"
+      roughness={0.24}
+      metalness={0.04}
+      envMapIntensity={1.2}
+    />
+  );
+
+  return (
+    <group ref={groupRef} position={[0, -0.3, 0]}>
+      {/* Classical Hellenistic Carved Marble Plinth */}
+      <mesh position={[0, -1.15, 0]}>
+        <cylinderGeometry args={[0.75, 0.88, 0.22, 32]} />
+        {marbleMaterial}
+      </mesh>
+      <mesh position={[0, -0.98, 0]}>
+        <cylinderGeometry args={[0.62, 0.72, 0.16, 32]} />
+        {marbleMaterial}
+      </mesh>
+
+      {/* Draped Lower Body (Gracefully wrapped cascading drapery) */}
+      <group position={[0, -0.35, 0]}>
+        {/* Main Draped Skirt Column */}
+        <mesh position={[0, 0, 0]}>
+          <cylinderGeometry args={[0.38, 0.52, 1.15, 24]} />
+          {marbleMaterial}
+        </mesh>
+        {/* Fold bunch around waist/hips */}
+        <mesh position={[0, 0.55, 0]}>
+          <torusGeometry args={[0.42, 0.07, 16, 32]} />
+          {marbleMaterial}
+        </mesh>
+        {/* Cascade fold down right thigh */}
+        <mesh position={[0.18, 0.1, 0.25]} rotation={[0.15, 0.2, -0.1]}>
+          <cylinderGeometry args={[0.08, 0.14, 0.9, 12]} />
+          {marbleMaterial}
+        </mesh>
+        {/* Peeking marble toe */}
+        <mesh position={[0.12, -0.58, 0.38]}>
+          <boxGeometry args={[0.14, 0.08, 0.22]} />
+          {marbleMaterial}
+        </mesh>
+      </group>
+
+      {/* Upper Bare Marble Torso & Hellenistic Contrapposto Poise */}
+      <group ref={torsoRef} position={[0, 0.22, 0]}>
+        {/* S-curve waist and hips */}
+        <mesh position={[0, 0.08, 0]} rotation={[0.04, 0, 0.06]}>
+          <cylinderGeometry args={[0.26, 0.23, 0.45, 16]} />
+          {marbleMaterial}
+        </mesh>
+        {/* Sculpted classical chest & ribcage */}
+        <mesh position={[0, 0.35, 0.02]} rotation={[-0.04, 0, -0.04]}>
+          <boxGeometry args={[0.48, 0.36, 0.28]} />
+          {marbleMaterial}
+        </mesh>
+        {/* Sculpted bust */}
+        <group position={[0, 0.38, 0.12]}>
+          <mesh position={[0.11, 0, 0]}>
+            <sphereGeometry args={[0.11, 16, 16]} />
+            {marbleMaterial}
+          </mesh>
+          <mesh position={[-0.11, 0, 0]}>
+            <sphereGeometry args={[0.11, 16, 16]} />
+            {marbleMaterial}
+          </mesh>
+        </group>
+
+        {/* Shoulders with classic missing-arms stumps */}
+        <mesh position={[0, 0.52, 0]}>
+          <cylinderGeometry args={[0.14, 0.14, 0.64, 16]} rotation={[0, 0, Math.PI / 2]} />
+          {marbleMaterial}
+        </mesh>
+
+        {/* Delicate neck and tilted serene head */}
+        <group position={[0.02, 0.68, 0.04]} rotation={[-0.05, 0.15, -0.08]}>
+          {/* Neck */}
+          <mesh position={[0, 0, 0]}>
+            <cylinderGeometry args={[0.09, 0.11, 0.22, 16]} />
+            {marbleMaterial}
+          </mesh>
+          {/* Head */}
+          <mesh position={[0, 0.2, 0.02]}>
+            <sphereGeometry args={[0.18, 24, 24]} />
+            {marbleMaterial}
+          </mesh>
+          {/* Facial profile */}
+          <mesh position={[0, 0.14, 0.14]}>
+            <boxGeometry args={[0.12, 0.16, 0.1]} />
+            {marbleMaterial}
+          </mesh>
+          {/* Classical Greek Hair Chignon (Knot at the back) */}
+          <mesh position={[0, 0.2, -0.15]}>
+            <sphereGeometry args={[0.1, 16, 16]} />
+            {marbleMaterial}
+          </mesh>
+        </group>
+      </group>
+    </group>
+  );
+}
+
+function RosettaStoneModel() {
+  const groupRef = useRef();
+  const scanLineRef = useRef();
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      // Steady dignified rotation
+      groupRef.current.rotation.y += delta * 0.12;
+    }
+    if (scanLineRef.current) {
+      // Golden decipherment scan light slowly moving up and down the trilingual scripts
+      const scanY = Math.sin(state.clock.elapsedTime * 1.4) * 0.65;
+      scanLineRef.current.position.y = scanY;
+    }
+  });
+
+  const granodioriteMaterial = (
+    <meshStandardMaterial
+      color="#222428"
+      roughness={0.72}
+      metalness={0.18}
+      envMapIntensity={0.8}
+    />
+  );
+
+  return (
+    <group ref={groupRef} position={[0, -0.2, 0]}>
+      {/* Heavy Museum Steel Display Armature / Plinth Base */}
+      <mesh position={[0, -1.08, 0]}>
+        <boxGeometry args={[1.65, 0.22, 0.9]} />
+        <meshStandardMaterial color="#141412" roughness={0.65} metalness={0.4} />
+      </mesh>
+      {/* Steel mounting cradle lips */}
+      <mesh position={[0.62, -0.86, 0]}>
+        <boxGeometry args={[0.08, 0.35, 0.32]} />
+        <meshStandardMaterial color="#2B2620" metalness={0.8} roughness={0.3} />
+      </mesh>
+      <mesh position={[-0.62, -0.86, 0]}>
+        <boxGeometry args={[0.08, 0.35, 0.32]} />
+        <meshStandardMaterial color="#2B2620" metalness={0.8} roughness={0.3} />
+      </mesh>
+
+      {/* Main Granodiorite Slab (The Stela) */}
+      <group position={[0, 0.05, 0]}>
+        {/* Main Body Slab */}
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[1.32, 1.82, 0.24]} />
+          {granodioriteMaterial}
+        </mesh>
+
+        {/* Iconic Fractured / Broken Top-Right Edge of the Rosetta Stone */}
+        <mesh position={[0.48, 0.92, 0]} rotation={[0, 0, -0.45]}>
+          <boxGeometry args={[0.6, 0.3, 0.25]} />
+          <meshStandardMaterial color="#1C1E22" roughness={0.85} metalness={0.15} />
+        </mesh>
+
+        {/* ── The Trilingual Inscribed Face (Front relief scripts) ── */}
+        {/* Top Register: Egyptian Hieroglyphs (14 lines in original) */}
+        <group position={[0, 0.48, 0.125]}>
+          <mesh>
+            <planeGeometry args={[1.15, 0.48]} />
+            <meshStandardMaterial color="#2A2C32" roughness={0.8} />
+          </mesh>
+          {/* Subtle relief glyph lines */}
+          {[-0.16, -0.05, 0.06, 0.16].map((y, idx) => (
+            <mesh key={idx} position={[0, y, 0.005]}>
+              <boxGeometry args={[1.05, 0.025, 0.01]} />
+              <meshStandardMaterial color="#C6A56B" emissive="#C6A56B" emissiveIntensity={0.2} roughness={0.3} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* Middle Register: Demotic Script (32 lines in original) */}
+        <group position={[0, 0, 0.125]}>
+          <mesh>
+            <planeGeometry args={[1.2, 0.46]} />
+            <meshStandardMaterial color="#25272C" roughness={0.8} />
+          </mesh>
+          {[-0.15, -0.05, 0.05, 0.15].map((y, idx) => (
+            <mesh key={idx} position={[0, y, 0.005]}>
+              <boxGeometry args={[1.1, 0.018, 0.01]} />
+              <meshStandardMaterial color="#E8E0D0" opacity={0.6} transparent roughness={0.4} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* Bottom Register: Ancient Greek Script (54 lines in original) */}
+        <group position={[0, -0.48, 0.125]}>
+          <mesh>
+            <planeGeometry args={[1.22, 0.48]} />
+            <meshStandardMaterial color="#222428" roughness={0.8} />
+          </mesh>
+          {[-0.16, -0.05, 0.06, 0.16].map((y, idx) => (
+            <mesh key={idx} position={[0, y, 0.005]}>
+              <boxGeometry args={[1.15, 0.018, 0.01]} />
+              <meshStandardMaterial color="#A8A093" opacity={0.5} transparent roughness={0.4} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* Animated Decipherment Scan Line (Horizontal golden laser beam) */}
+        <group ref={scanLineRef} position={[0, 0, 0.135]}>
+          <mesh>
+            <boxGeometry args={[1.25, 0.015, 0.01]} />
+            <meshStandardMaterial color="#FFD700" emissive="#FFB84D" emissiveIntensity={0.9} />
+          </mesh>
+          <pointLight color="#FFD700" intensity={0.8} distance={1.2} />
+        </group>
+      </group>
+    </group>
+  );
+}
+
 function Mesh3D({ type, artwork }) {
   const meshRef = useRef();
 
   if (type === 'painting-frame') {
     return <PaintingFrame artwork={artwork} />;
-  }
-
-  if (type === 'sculpture-marble') {
-    return (
-      <mesh ref={meshRef} position={[0, 0, 0]}>
-        <cylinderGeometry args={[0.7, 0.9, 2.2, 32]} />
-        <meshStandardMaterial color="#E8E0D0" roughness={0.2} metalness={0.05} />
-      </mesh>
-    );
   }
 
   if (type === 'digital-cube') {
@@ -476,6 +700,18 @@ function Mesh3D({ type, artwork }) {
 
   if (type === 'sculpture-nataraja' || artwork?.id === 'chola-nataraja') {
     return <NatarajaModel artwork={artwork} />;
+  }
+
+  if (type === 'stele-rosetta' || artwork?.id === 'rosetta-stone') {
+    return <RosettaStoneModel artwork={artwork} />;
+  }
+
+  if (type === 'sculpture-venus' || artwork?.id === 'venus-de-milo') {
+    return <VenusDeMiloModel artwork={artwork} />;
+  }
+
+  if (type === 'sculpture-marble') {
+    return <VenusDeMiloModel artwork={artwork} />;
   }
 
   // Default bronze sculpture

@@ -118,7 +118,7 @@ export const ARTWORKS = [
     roomId: 'classical-sculpture',
     room: 'Hall of Classical Sculpture',
     image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?q=80&w=1200&auto=format&fit=crop',
-    threeDType: 'sculpture-marble',
+    threeDType: 'sculpture-venus',
     description:
       'Discovered on the Aegean island of Milos in 1820, this masterpiece combines the classical poise of Praxiteles with Hellenistic drama, featuring dynamic contrapposto balance and realistic drapery falling over the hips.',
     provenance:
@@ -190,7 +190,7 @@ export const ARTWORKS = [
     roomId: 'ancient-heritage',
     room: 'Sacred Antiquities Sanctuary',
     image: 'https://images.unsplash.com/photo-1568667256549-094345857637?q=80&w=1200&auto=format&fit=crop',
-    threeDType: 'sculpture-marble',
+    threeDType: 'stele-rosetta',
     description:
       'Decreed at Memphis on behalf of King Ptolemy V, this stela features the same royal decree written in three scripts: Ancient Egyptian Hieroglyphs, Demotic script, and Ancient Greek, enabling Jean-François Champollion to decipher hieroglyphs in 1822.',
     provenance:
