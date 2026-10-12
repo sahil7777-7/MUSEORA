@@ -5,6 +5,7 @@ import PageTransition from '../components/layout/PageTransition';
 import { ARTISTS } from '../data/museumData';
 import TiltCard from '../components/ui/TiltCard';
 import LazyCard from '../components/ui/LazyCard';
+import ImageWithFallback from '../components/ui/ImageWithFallback';
 import { ArrowUpRight } from 'lucide-react';
 import { museumAudio } from '../utils/audio';
 
@@ -48,15 +49,12 @@ export default function Artists() {
                     dataCursor="view"
                   >
                     <div style={{ position: 'relative', height: '480px', overflow: 'hidden', padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <div className="skeleton-shimmer-card" style={{ position: 'absolute', inset: 0, borderRadius: 0 }}>
-                        <img
-                          src={artist.portrait}
-                          alt={artist.name}
-                          onLoad={(e) => e.target.classList.add('loaded')}
-                          className="lazy-image artists-card-image"
-                          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </div>
+                      <ImageWithFallback
+                        src={artist.portrait}
+                        alt={artist.name}
+                        fallbackTitle={artist.name}
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                      />
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, rgba(11, 10, 8, 0.4) 50%, transparent 100%)', pointerEvents: 'none' }} />
   
                       <div className="font-mono" style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.65rem' }}>

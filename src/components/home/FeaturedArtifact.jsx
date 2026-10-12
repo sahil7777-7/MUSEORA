@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FEATURED_ARTIFACT } from '../../data/museumData';
 import TiltCard from '../ui/TiltCard';
 import MagneticButton from '../ui/MagneticButton';
+import ImageWithFallback from '../ui/ImageWithFallback';
 import { Sparkles, Compass } from 'lucide-react';
 
 const fadeInUp = {
@@ -131,11 +132,13 @@ export default function FeaturedArtifact() {
             transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <TiltCard dataCursor="view" className="glass-panel" style={{ padding: '0.75rem' }}>
-              <div style={{ position: 'relative', width: '100%', minHeight: '350px', maxHeight: '480px', borderRadius: '8px', overflow: 'hidden' }}>
-                <img
+              <div style={{ position: 'relative', width: '100%', minHeight: '350px', maxHeight: '480px', height: '440px', borderRadius: '8px', overflow: 'hidden' }}>
+                <ImageWithFallback
                   src={FEATURED_ARTIFACT.image}
-                  alt=""
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  alt={FEATURED_ARTIFACT.title}
+                  fallbackTitle={FEATURED_ARTIFACT.title}
+                  priority={true}
+                  style={{ width: '100%', height: '100%' }}
                 />
                 <div
                   style={{

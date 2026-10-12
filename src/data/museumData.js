@@ -19,7 +19,7 @@ export const FEATURED_ARTIFACT = {
   roomId: 'classical-sculpture',
   room: 'Hall of Classical Sculpture',
   image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop',
-  threeDType: 'sculpture-bronze',
+  threeDType: 'sculpture-thinker',
   description:
     'Originally conceived in 1880 as part of Rodin\'s monumental portal "The Gates of Hell" (based on Dante\'s Inferno), The Thinker depicts Dante Alighieri leaning forward, hand supporting his chin, contemplating the epic tragic poem of human existence. Enlarged in 1904, it became one of the most recognized bronze sculptures in human history.',
   provenance:
@@ -46,7 +46,7 @@ export const ARTWORKS = [
     roomId: 'ancient-heritage',
     room: 'Sacred Antiquities Sanctuary',
     image: 'https://images.unsplash.com/photo-1608889175123-8ee362201f81?q=80&w=1200&auto=format&fit=crop',
-    threeDType: 'sculpture-bronze',
+    threeDType: 'sculpture-nataraja',
     description:
       'Shiva as Nataraja dances within a flaming halo of cosmic energy (prabhamandala), raising the drum of creation (damaru) in his upper right hand and holding the flame of destruction (agni) in his upper left. His right foot tramples the demon of ignorance (Apasmara), while his hair thrashes with cosmic power.',
     provenance:
@@ -93,7 +93,7 @@ export const ARTWORKS = [
     category: 'Painting',
     roomId: 'impressionist-wing',
     room: 'Impressionist & Modern Masters',
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1545987796-200677ee1011?q=80&w=1200&auto=format&fit=crop',
     threeDType: 'painting-frame',
     description:
       'Painted in June 1889 from Van Gogh\'s east-facing asylum window in Saint-Rémy-de-Provence just before sunrise, featuring turbulent rhythmic impasto night sky, glowing crescent moon, Eleven bright stars, and a towering dark cypress tree.',
@@ -117,7 +117,7 @@ export const ARTWORKS = [
     category: 'Sculpture',
     roomId: 'classical-sculpture',
     room: 'Hall of Classical Sculpture',
-    image: 'https://images.unsplash.com/photo-1544411047-c491e34a2465?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?q=80&w=1200&auto=format&fit=crop',
     threeDType: 'sculpture-marble',
     description:
       'Discovered on the Aegean island of Milos in 1820, this masterpiece combines the classical poise of Praxiteles with Hellenistic drama, featuring dynamic contrapposto balance and realistic drapery falling over the hips.',
@@ -267,7 +267,7 @@ export const ARTISTS = [
     country: 'Netherlands',
     style: 'Post-Impressionism',
     worksCount: 18,
-    portrait: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=600&auto=format&fit=crop',
+    portrait: 'https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?q=80&w=600&auto=format&fit=crop',
     bio:
       'Dutch Post-Impressionist painter who posthumously became one of the most famous and influential figures in Western art history.',
     timeline: [
@@ -302,7 +302,7 @@ export const ROOMS = [
     subtitle: 'Marble masterpieces & monumental bronze casts',
     description: 'Housing Auguste Rodin’s Thinker, Venus de Milo, and Greco-Roman friezes under dramatic directional museum spotlighting.',
     count: '34 Masterworks',
-    image: 'https://images.unsplash.com/photo-1544411047-c491e34a2465?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1580136579312-94651dfd596d?q=80&w=1000&auto=format&fit=crop',
     visitors: '1,420 Active Viewers'
   },
   {
@@ -329,7 +329,7 @@ export const ROOMS = [
     subtitle: 'Van Gogh, Gustav Klimt, & Monet',
     description: 'Showcasing Starry Night, The Kiss, and vibrant post-impressionist color harmonies.',
     count: '50 Paintings',
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=1000&auto=format&fit=crop',
     visitors: '1,840 Active Viewers'
   },
   {
@@ -463,31 +463,77 @@ export const EVENTS = [
   }
 ];
 
-export const AI_CURATOR_KNOWLEDGE = [
-  {
-    keywords: ['thinker', 'rodin', 'gates of hell', 'sculpture'],
-    title: 'Auguste Rodin\'s The Thinker',
-    answer: 'The Thinker (1904) by Auguste Rodin is a monumental bronze sculpture portraying Dante Alighieri contemplating human existence at the gates of hell.'
-  },
-  {
-    keywords: ['chola', 'nataraja', 'shiva', 'cosmic', 'bronze', 'india'],
-    title: 'Chola Dynasty Nataraja Bronze',
-    answer: 'The 11th-century Tamil Nadu Chola Nataraja represents Shiva dancing the cosmic cycle of creation and destruction within a ring of flames.'
-  },
-  {
-    keywords: ['mona lisa', 'da vinci', 'louvre', 'sfumato', 'smile'],
-    title: 'Leonardo da Vinci\'s Mona Lisa',
-    answer: 'Painted between 1503–1519, Mona Lisa is renowned for Leonardo\'s sfumato glaze layering and her enigmatic expression.'
-  },
-  {
-    keywords: ['starry night', 'van gogh', 'moma', 'swirl'],
-    title: 'Vincent van Gogh\'s Starry Night',
-    answer: 'Painted in 1889 at Saint-Rémy-de-Provence, Starry Night captures turbulent celestial motion with expressive impasto strokes.'
-  },
-  {
-    keywords: ['rosetta', 'hieroglyph', 'egypt', 'stone'],
-    title: 'The Rosetta Stone (196 BCE)',
-    answer: 'Discovered in 1799, the Rosetta Stone contains the same royal decree in Hieroglyphs, Demotic, and Ancient Greek, unlocking ancient Egyptian history.'
+export const AI_CURATOR_KNOWLEDGE = {
+  welcome:
+    'Welcome to MUSEORA. I am your Senior Virtual Curator, AURA. Ask me anything regarding our masterwork archives, sculptural casting techniques, Renaissance optics, or spatial 3D gallery navigation.',
+  suggestedQuestions: [
+    'Tell me about Rodin’s Thinker',
+    'Why is the Chola Nataraja bronze significant?',
+    'What technique was used for Mona Lisa?',
+    'Tell me about The Starry Night',
+    'How do I explore the 3D Virtual Tour?'
+  ],
+  topics: [
+    {
+      keywords: ['thinker', 'rodin', 'gates of hell', 'sculpture', 'bronze man'],
+      title: 'Auguste Rodin\'s The Thinker',
+      answer:
+        'The Thinker (1904) by Auguste Rodin is a monumental bronze cast depicting Dante Alighieri in deep physical and philosophical contemplation, originally conceived for "The Gates of Hell". Notice how every muscle strains with the weight of human consciousness.'
+    },
+    {
+      keywords: ['chola', 'nataraja', 'shiva', 'cosmic', 'bronze', 'india', 'tamil'],
+      title: 'Chola Dynasty Nataraja Bronze',
+      answer:
+        'The 11th-century Tamil Nadu Chola Nataraja was cast using the ancient lost-wax (Panchaloha) process. It represents Shiva performing the Ananda Tandava—the eternal cosmic dance of creation, preservation, and dissolution within a flaming aura.'
+    },
+    {
+      keywords: ['mona lisa', 'da vinci', 'louvre', 'sfumato', 'smile', 'leonardo'],
+      title: 'Leonardo da Vinci\'s Mona Lisa',
+      answer:
+        'Painted between 1503–1519, the Mona Lisa revolutionized portraiture through Leonardo da Vinci’s sfumato technique—applying over thirty microscopic glazes thinner than a human hair to blend light and shadow without perceptible borders.'
+    },
+    {
+      keywords: ['starry night', 'van gogh', 'moma', 'swirl', 'vincent', 'post-impressionism'],
+      title: 'Vincent van Gogh\'s Starry Night',
+      answer:
+        'Painted in June 1889 from Saint-Paul-de-Mausole in Saint-Rémy, The Starry Night uses turbulent, rhythmic impasto brushstrokes that fluid dynamics physicists found to closely align with mathematical turbulence models.'
+    },
+    {
+      keywords: ['rosetta', 'hieroglyph', 'egypt', 'stone', 'champollion'],
+      title: 'The Rosetta Stone (196 BCE)',
+      answer:
+        'Decreed in 196 BCE and rediscovered in 1799, the Rosetta Stone features the same royal decree inscribed in Egyptian Hieroglyphs, Demotic script, and Ancient Greek, enabling Jean-François Champollion to decipher Egyptian hieroglyphs in 1822.'
+    },
+    {
+      keywords: ['wave', 'hokusai', 'great wave', 'japan', 'fuji', 'woodblock'],
+      title: 'Hokusai\'s The Great Wave off Kanagawa',
+      answer:
+        'Published c. 1831 in Edo Japan, Katsushika Hokusai\'s woodblock print frames Mount Fuji within a towering, claw-like crest of Prussian Blue synthetic pigment, exploring human fragility against monumental nature.'
+    },
+    {
+      keywords: ['venus', 'milo', 'aphrodite', 'marble', 'greece', 'hellenistic'],
+      title: 'Venus de Milo (Aphrodite of Milos)',
+      answer:
+        'Dating to c. 130–100 BCE Hellenistic Greece, the Venus de Milo is carved from luminous Parian marble, famed for its elegant contrapposto posture and delicate drapery slipping over the hips.'
+    },
+    {
+      keywords: ['tour', 'navigate', 'map', '3d', 'virtual tour', 'controls', 'explore'],
+      title: 'MUSEORA 3D Navigation Guide',
+      answer:
+        'You can step into our 3D Virtual Tour from the top navigation bar or enter any exhibition room. Use click-and-drag to rotate the camera, scroll to zoom into fine textures, and click on any masterwork plaque to inspect provenance and audio analysis.'
+    }
+  ],
+  responses: {
+    thinker:
+      'The Thinker (1904) by Auguste Rodin is a monumental bronze cast depicting Dante Alighieri in deep physical and philosophical contemplation, originally conceived for "The Gates of Hell". Notice how every muscle strains with the weight of human consciousness.',
+    chola:
+      'The 11th-century Tamil Nadu Chola Nataraja was cast using the ancient lost-wax (Panchaloha) process. It represents Shiva performing the Ananda Tandava—the eternal cosmic dance of creation, preservation, and dissolution within a flaming aura.',
+    'mona lisa':
+      'Painted between 1503–1519, the Mona Lisa revolutionized portraiture through Leonardo da Vinci’s sfumato technique—applying over thirty microscopic glazes thinner than a human hair to blend light and shadow without perceptible borders.',
+    'great wave':
+      'Published c. 1831 in Edo Japan, Katsushika Hokusai\'s woodblock print frames Mount Fuji within a towering, claw-like crest of Prussian Blue synthetic pigment, exploring human fragility against monumental nature.',
+    tour:
+      'You can step into our 3D Virtual Tour from the top navigation bar or enter any exhibition room. Use click-and-drag to rotate the camera, scroll to zoom into fine textures, and click on any masterwork plaque to inspect provenance and audio analysis.'
   }
-];
+};
 

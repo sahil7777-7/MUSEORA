@@ -98,12 +98,32 @@ function AppContent() {
   );
 }
 
+function shouldShowIntro() {
+  try {
+    if (typeof window === 'undefined' || !window.sessionStorage) return true;
+    return window.sessionStorage.getItem('museora_session_intro_shown') !== 'true';
+  } catch {
+    return true;
+  }
+}
+
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => shouldShowIntro());
+
+  const handleFinishLoading = () => {
+    try {
+      if (typeof window !== 'undefined' && window.sessionStorage) {
+        window.sessionStorage.setItem('museora_session_intro_shown', 'true');
+      }
+    } catch {
+      // Graceful fallback if sessionStorage quota or access is restricted
+    }
+    setLoading(false);
+  };
 
   return (
     <>
-      {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
+      {loading && <LoadingScreen onFinish={handleFinishLoading} />}
       <Router basename={import.meta.env.BASE_URL}>
         <AppContent />
       </Router>

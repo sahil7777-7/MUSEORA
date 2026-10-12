@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import PageTransition from '../components/layout/PageTransition';
 import { ARTISTS, ARTWORKS } from '../data/museumData';
 import TiltCard from '../components/ui/TiltCard';
+import ImageWithFallback from '../components/ui/ImageWithFallback';
 import { ArrowLeft, Clock } from 'lucide-react';
 import { museumAudio } from '../utils/audio';
 
@@ -57,10 +58,11 @@ export default function ArtistDetail() {
           >
             <TiltCard className="glass-panel" style={{ padding: '0.75rem' }} dataCursor="view">
               <div style={{ position: 'relative', height: '480px', borderRadius: '8px', overflow: 'hidden' }}>
-                <img
+                <ImageWithFallback
                   src={artist.portrait}
                   alt={artist.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  fallbackTitle={artist.name}
+                  style={{ width: '100%', height: '100%' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, transparent 60%)', opacity: 0.8 }} />
               </div>
@@ -142,11 +144,12 @@ export default function ArtistDetail() {
                     onClick={() => navigate(`/artworks/${art.id}`)}
                     dataCursor="view"
                   >
-                    <div style={{ position: 'relative', height: '320px', overflow: 'hidden', padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyBetween: 'space-between' }}>
-                      <img
+                    <div style={{ position: 'relative', height: '320px', overflow: 'hidden', padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <ImageWithFallback
                         src={art.image}
                         alt={art.title}
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }}
+                        fallbackTitle={art.title}
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.6 }}
                       />
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, rgba(11, 10, 8, 0.4) 50%, transparent 100%)' }} />
                       <span className="font-mono badge-cream" style={{ position: 'relative', zIndex: 10, alignSelf: 'flex-start' }}>

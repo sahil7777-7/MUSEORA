@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ImageOff } from 'lucide-react';
 
 /**
  * MUSEORA — Resilient Image Component
  * Features:
  * - Shimmer skeleton placeholder while loading
+ * - Immediate display for browser-cached images (complete check)
  * - Smooth opacity fade-in once loaded
  * - Graceful fallback on HTTP 404, CORS error, or missing URL
  * - Preserves card aspect ratio and prevents Cumulative Layout Shift (CLS)
@@ -15,12 +16,29 @@ export default function ImageWithFallback({
   fallbackTitle = '',
   className = '',
   style = {},
+  imgStyle = {},
+  objectFit = 'cover',
   aspectRatio,
   onLoad,
   priority = false,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(!src);
+  const imgRef = useRef(null);
+
+  // Reset state whenever the source URL changes
+  useEffect(() => {
+    setHasError(!src);
+    setIsLoaded(false);
+  }, [src]);
+
+  // Check if image is already cached and loaded by the browser
+  const handleRef = (node) => {
+    imgRef.current = node;
+    if (node && node.complete && node.naturalWidth > 0 && !isLoaded) {
+      setIsLoaded(true);
+    }
+  };
 
   const handleLoad = (e) => {
     setIsLoaded(true);
@@ -123,6 +141,7 @@ export default function ImageWithFallback({
 
       {/* Main Image */}
       <img
+        ref={handleRef}
         src={src}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
@@ -132,10 +151,11 @@ export default function ImageWithFallback({
         style={{
           width: '100%',
           height: '100%',
-          objectFit: 'cover',
+          objectFit,
           display: 'block',
           opacity: isLoaded ? 1 : 0,
           transition: 'opacity 0.4s ease-in-out',
+          ...imgStyle,
         }}
       />
     </div>

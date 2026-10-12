@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ROOMS } from '../../data/museumData';
 import TiltCard from '../ui/TiltCard';
+import ImageWithFallback from '../ui/ImageWithFallback';
 import { ArrowUpRight } from 'lucide-react';
 import { museumAudio } from '../../utils/audio';
 
@@ -91,10 +92,11 @@ export default function ExploreRooms() {
                 >
                   {/* Background Image */}
                   <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                    <img
+                    <ImageWithFallback
                       src={room.image}
-                      alt=""
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55, transition: 'transform 0.7s, opacity 0.7s' }}
+                      alt={room.title}
+                      fallbackTitle={room.title}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.55 }}
                     />
                     <div
                       style={{

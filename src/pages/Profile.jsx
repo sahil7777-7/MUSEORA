@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import PageTransition from '../components/layout/PageTransition';
-import { getViewedArtworks, getFavorites, getCompletedToursCount } from '../utils/storage';
-import { Compass, Award, Bookmark, Eye, Layers } from 'lucide-react';
+import { getViewedArtworks, getFavorites, getCompletedToursCount, getReservedEvents, cancelEventReservation } from '../utils/storage';
+import { EVENTS } from '../data/museumData';
+import { Compass, Award, Bookmark, Eye, Layers, Calendar, CheckCircle2 } from 'lucide-react';
 
 export default function Profile() {
-  const viewedCount = getViewedArtworks().length || 4;
+  const viewedCount = getViewedArtworks().length;
   const favoritesCount = getFavorites().length;
   const toursCount = getCompletedToursCount();
   const exhibitionsCount = 3;
+
+  const [reservedEventIds, setReservedEventIds] = useState(() => getReservedEvents());
+
+  useEffect(() => {
+    const handleSync = () => {
+      setReservedEventIds(getReservedEvents());
+    };
+    window.addEventListener('museora_reservations_changed', handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener('museora_reservations_changed', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
+
+  const handleCancelPass = (eventId) => {
+    const updated = cancelEventReservation(eventId);
+    setReservedEventIds(updated);
+  };
+
+  const reservedEventsList = reservedEventIds
+    .map((id) => EVENTS.find((e) => e.id === id))
+    .filter(Boolean);
 
   return (
     <PageTransition>
@@ -96,6 +121,110 @@ export default function Profile() {
               <div className="font-serif font-hero" style={{ fontSize: '3.5rem', color: 'var(--text-primary)', fontWeight: 300, paddingTop: '0.5rem' }}>{toursCount}</div>
               <p className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>3D TOURS COMPLETED</p>
             </motion.div>
+          </div>
+
+          {/* Reserved Event Passes Section */}
+          <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '3rem' }}>
+            <div className="museo-flex-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+              <div>
+                <span className="font-mono text-gold-pure" style={{ fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                  ACCESS PASSES
+                </span>
+                <h3 className="font-serif" style={{ fontSize: '1.75rem', color: 'var(--text-primary)', textTransform: 'uppercase', marginTop: '0.25rem' }}>
+                  RESERVED EVENT PASSES ({reservedEventsList.length})
+                </h3>
+              </div>
+              <Link
+                to="/events"
+                className="btn-secondary-museo"
+                style={{ fontSize: '0.75rem', padding: '0.5rem 1rem' }}
+                data-cursor="click"
+              >
+                EXPLORE ALL EVENTS →
+              </Link>
+            </div>
+
+            {reservedEventsList.length === 0 ? (
+              <div style={{
+                padding: '2.5rem',
+                textAlign: 'center',
+                backgroundColor: '#0B0A08',
+                borderRadius: '8px',
+                border: '1px dashed rgba(232, 224, 208, 0.15)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}>
+                <Calendar style={{ width: '28px', height: '28px', color: 'var(--text-secondary)' }} />
+                <p className="font-serif" style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>
+                  NO ACTIVE RESERVATIONS
+                </p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '420px' }}>
+                  Reserve your virtual seat for upcoming live 3D walkthroughs, art history lectures, and curator symposia.
+                </p>
+                <Link to="/events" className="btn-primary-museo" style={{ fontSize: '0.75rem', marginTop: '0.5rem' }} data-cursor="click">
+                  BROWSE EVENTS
+                </Link>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {reservedEventsList.map((event) => (
+                  <div
+                    key={event.id}
+                    style={{
+                      padding: '1.5rem',
+                      backgroundColor: '#0B0A08',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(198, 165, 107, 0.25)',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '1.5rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxWidth: '600px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span className="badge-gold" style={{ fontSize: '0.65rem' }}>
+                          CONFIRMED PASS • {event.location}
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--success)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>
+                          <CheckCircle2 style={{ width: '12px', height: '12px' }} />
+                          <span>VALIDATED</span>
+                        </div>
+                      </div>
+                      <h4 className="font-serif" style={{ fontSize: '1.35rem', color: 'var(--text-primary)', textTransform: 'uppercase' }}>
+                        {event.title}
+                      </h4>
+                      <div className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                        {event.date} • SPEAKER: {event.speaker}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => handleCancelPass(event.id)}
+                      style={{
+                        background: 'none',
+                        border: '1px solid rgba(239, 68, 68, 0.4)',
+                        color: '#ef4444',
+                        fontSize: '0.7rem',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-mono)',
+                        transition: 'all 0.2s ease',
+                      }}
+                      data-cursor="click"
+                    >
+                      CANCEL PASS
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

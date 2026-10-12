@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, X, Send, Bot, User, HelpCircle } from 'lucide-react';
 import { AI_CURATOR_KNOWLEDGE } from '../../data/museumData';
 import { museumAudio } from '../../utils/audio';
 
+const DEFAULT_WELCOME =
+  'Welcome to MUSEORA. I am your Senior Virtual Curator, AURA. Ask me anything regarding our masterwork archives, sculptural casting techniques, Renaissance optics, or spatial 3D gallery navigation.';
+
+const DEFAULT_FALLBACK_ANSWER =
+  "That is an intriguing question. MUSEORA's curatorial archives document that every masterpiece reflects the technological boundaries and spiritual philosophies of its era. Feel free to ask specifically about Auguste Rodin's Thinker, Chola bronzes, Leonardo's sfumato technique, Van Gogh's Starry Night, or our 3D tour!";
+
 export default function CuratorChat({ isOpen, onClose }) {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState(() => [
     {
       sender: 'curator',
-      text: AI_CURATOR_KNOWLEDGE.welcome,
+      text: AI_CURATOR_KNOWLEDGE?.welcome || DEFAULT_WELCOME,
       timestamp: 'NOW'
     }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+
+  const timeoutRef = useRef(null);
+  const intervalRef = useRef(null);
+
+  // Clear pending timers if drawer closes or unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   const handleSend = (queryText) => {
     const textToUse = queryText || input;
@@ -26,20 +43,39 @@ export default function CuratorChat({ isOpen, onClose }) {
     if (!queryText) setInput('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      let matchResponse = "That is an intriguing question. MUSEORA's curatorial archives document that every masterpiece reflects the technological boundaries and spiritual philosophies of its era. Feel free to ask specifically about Rodin, Chola bronzes, Leonardo da Vinci, or our 3D tour!";
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
 
+    timeoutRef.current = setTimeout(() => {
       const qLower = textToUse.toLowerCase();
-      if (qLower.includes('thinker') || qLower.includes('rodin')) {
-        matchResponse = AI_CURATOR_KNOWLEDGE.responses.thinker;
-      } else if (qLower.includes('chola') || qLower.includes('bronze') || qLower.includes('nataraja') || qLower.includes('india')) {
-        matchResponse = AI_CURATOR_KNOWLEDGE.responses.chola;
-      } else if (qLower.includes('mona') || qLower.includes('lisa') || qLower.includes('sfumato') || qLower.includes('da vinci')) {
-        matchResponse = AI_CURATOR_KNOWLEDGE.responses['mona lisa'];
-      } else if (qLower.includes('wave') || qLower.includes('hokusai') || qLower.includes('japan')) {
-        matchResponse = AI_CURATOR_KNOWLEDGE.responses['great wave'];
-      } else if (qLower.includes('tour') || qLower.includes('navigate') || qLower.includes('map') || qLower.includes('3d')) {
-        matchResponse = AI_CURATOR_KNOWLEDGE.responses.tour;
+      let matchResponse = DEFAULT_FALLBACK_ANSWER;
+
+      // 1. Check keyword topic matches
+      const topics = Array.isArray(AI_CURATOR_KNOWLEDGE?.topics)
+        ? AI_CURATOR_KNOWLEDGE.topics
+        : Array.isArray(AI_CURATOR_KNOWLEDGE)
+        ? AI_CURATOR_KNOWLEDGE
+        : [];
+
+      const matchedTopic = topics.find((item) =>
+        item.keywords && Array.isArray(item.keywords) && item.keywords.some((kw) => qLower.includes(kw.toLowerCase()))
+      );
+
+      if (matchedTopic && matchedTopic.answer) {
+        matchResponse = matchedTopic.answer;
+      } else if (AI_CURATOR_KNOWLEDGE?.responses && typeof AI_CURATOR_KNOWLEDGE.responses === 'object') {
+        // 2. Backward compatibility with responses object
+        if (qLower.includes('thinker') || qLower.includes('rodin')) {
+          matchResponse = AI_CURATOR_KNOWLEDGE.responses.thinker || matchResponse;
+        } else if (qLower.includes('chola') || qLower.includes('bronze') || qLower.includes('nataraja') || qLower.includes('india')) {
+          matchResponse = AI_CURATOR_KNOWLEDGE.responses.chola || matchResponse;
+        } else if (qLower.includes('mona') || qLower.includes('lisa') || qLower.includes('sfumato') || qLower.includes('da vinci')) {
+          matchResponse = AI_CURATOR_KNOWLEDGE.responses['mona lisa'] || matchResponse;
+        } else if (qLower.includes('wave') || qLower.includes('hokusai') || qLower.includes('japan')) {
+          matchResponse = AI_CURATOR_KNOWLEDGE.responses['great wave'] || matchResponse;
+        } else if (qLower.includes('tour') || qLower.includes('navigate') || qLower.includes('map') || qLower.includes('3d')) {
+          matchResponse = AI_CURATOR_KNOWLEDGE.responses.tour || matchResponse;
+        }
       }
 
       setIsTyping(false);
@@ -50,9 +86,9 @@ export default function CuratorChat({ isOpen, onClose }) {
         { sender: 'curator', text: '', timestamp: 'NOW' }
       ]);
 
-      let currentText = "";
+      let currentText = '';
       let charIndex = 0;
-      const interval = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         currentText += matchResponse.charAt(charIndex);
         setMessages((prev) => {
           const updated = [...prev];
@@ -65,10 +101,10 @@ export default function CuratorChat({ isOpen, onClose }) {
 
         charIndex++;
         if (charIndex >= matchResponse.length) {
-          clearInterval(interval);
+          if (intervalRef.current) clearInterval(intervalRef.current);
         }
       }, 10);
-    }, 900);
+    }, 600);
   };
 
   return (
@@ -134,8 +170,9 @@ export default function CuratorChat({ isOpen, onClose }) {
             <button
               onClick={() => {
                 museumAudio.playClickSound();
-                onClose && onClose();
+                onClose?.();
               }}
+              aria-label="Close Curator Chat"
               style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.5rem' }}
               data-cursor="click"
             >
@@ -194,7 +231,10 @@ export default function CuratorChat({ isOpen, onClose }) {
               <span>SUGGESTED INQUIRIES</span>
             </div>
             <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.25rem' }} className="no-scrollbar">
-              {AI_CURATOR_KNOWLEDGE.suggestedQuestions.map((q, idx) => (
+              {(Array.isArray(AI_CURATOR_KNOWLEDGE?.suggestedQuestions)
+                ? AI_CURATOR_KNOWLEDGE.suggestedQuestions
+                : []
+              ).map((q, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleSend(q)}

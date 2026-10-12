@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageTransition from '../components/layout/PageTransition';
 import { EXHIBITIONS, ARTWORKS } from '../data/museumData';
+import ImageWithFallback from '../components/ui/ImageWithFallback';
 import { ArrowLeft, X } from 'lucide-react';
 import { museumAudio } from '../utils/audio';
 
@@ -129,11 +130,14 @@ export default function ExhibitionDetail() {
                 </button>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <img
-                    src={selectedArtwork.image}
-                    alt={selectedArtwork.title}
-                    style={{ width: '96px', height: '96px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(232, 224, 208, 0.2)' }}
-                  />
+                  <div style={{ width: '96px', height: '96px', flexShrink: 0, borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(232, 224, 208, 0.2)' }}>
+                    <ImageWithFallback
+                      src={selectedArtwork.image}
+                      alt={selectedArtwork.title}
+                      fallbackTitle={selectedArtwork.title}
+                      style={{ width: '100%', height: '100%' }}
+                    />
+                  </div>
                   <div>
                     <span className="font-mono text-gold-pure" style={{ fontSize: '0.65rem', textTransform: 'uppercase' }}>
                       {selectedArtwork.year} • {selectedArtwork.category}

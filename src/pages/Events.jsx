@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/layout/PageTransition';
 import { EVENTS } from '../data/museumData';
@@ -6,15 +6,33 @@ import TiltCard from '../components/ui/TiltCard';
 import MagneticButton from '../components/ui/MagneticButton';
 import { Calendar, MapPin, User, CheckCircle2 } from 'lucide-react';
 import { museumAudio } from '../utils/audio';
+import { getReservedEvents, reserveEvent, cancelEventReservation } from '../utils/storage';
 
 export default function Events() {
-  const [reservedEvents, setReservedEvents] = useState([]);
+  const [reservedEvents, setReservedEvents] = useState(() => getReservedEvents());
+
+  useEffect(() => {
+    const handleSync = () => {
+      setReservedEvents(getReservedEvents());
+    };
+    window.addEventListener('museora_reservations_changed', handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener('museora_reservations_changed', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
 
   const handleReserve = (eventId) => {
     museumAudio.playClickSound();
-    if (!reservedEvents.includes(eventId)) {
-      setReservedEvents([...reservedEvents, eventId]);
-    }
+    const updated = reserveEvent(eventId);
+    setReservedEvents(updated);
+  };
+
+  const handleCancel = (eventId) => {
+    museumAudio.playClickSound();
+    const updated = cancelEventReservation(eventId);
+    setReservedEvents(updated);
   };
 
   return (
@@ -84,9 +102,30 @@ export default function Events() {
                         </span>
   
                         {isReserved ? (
-                          <div className="font-mono" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                            <CheckCircle2 style={{ width: '18px', height: '18px' }} />
-                            <span>PASS ADDED TO PROFILE</span>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.75rem', width: '100%' }}>
+                            <div className="font-mono" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                              <CheckCircle2 style={{ width: '18px', height: '18px' }} />
+                              <span>PASS ADDED TO PROFILE</span>
+                            </div>
+                            <button
+                              onClick={() => handleCancel(event.id)}
+                              style={{
+                                background: 'none',
+                                border: '1px solid rgba(232, 224, 208, 0.2)',
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.65rem',
+                                letterSpacing: '0.15em',
+                                textTransform: 'uppercase',
+                                padding: '0.4rem 0.8rem',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontFamily: 'var(--font-mono)',
+                                transition: 'all 0.2s ease',
+                              }}
+                              data-cursor="click"
+                            >
+                              CANCEL PASS
+                            </button>
                           </div>
                         ) : (
                           <MagneticButton variant="primary" onClick={() => handleReserve(event.id)}>

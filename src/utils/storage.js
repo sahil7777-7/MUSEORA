@@ -10,6 +10,7 @@ const KEYS = {
   FAVORITES: `${PREFIX}favorites`,
   VIEWED: `${PREFIX}viewed_artworks`,
   TOURS: `${PREFIX}completed_tours`,
+  RESERVATIONS: `${PREFIX}reserved_events`,
 };
 
 // Legacy keys for automatic migration
@@ -17,6 +18,7 @@ const LEGACY_KEYS = {
   FAVORITES: 'museora_favorites',
   VIEWED: 'museora_viewed_artworks',
   TOURS: 'museora_completed_tours',
+  RESERVATIONS: 'museora_reserved_events',
 };
 
 /**
@@ -99,11 +101,11 @@ export const addViewedArtwork = (artworkId) => {
 export const getCompletedToursCount = () => {
   try {
     const raw = localStorage.getItem(KEYS.TOURS) || localStorage.getItem(LEGACY_KEYS.TOURS);
-    if (!raw) return 1;
+    if (!raw) return 0;
     const parsed = parseInt(raw, 10);
-    return isNaN(parsed) ? 1 : parsed;
+    return isNaN(parsed) ? 0 : parsed;
   } catch {
-    return 1;
+    return 0;
   }
 };
 
@@ -115,3 +117,72 @@ export const incrementCompletedTours = () => {
     console.warn('LocalStorage error updating tours:', err);
   }
 };
+
+function notifyReservationsChanged() {
+  if (typeof window !== 'undefined') {
+    try {
+      window.dispatchEvent(new CustomEvent('museora_reservations_changed'));
+    } catch {
+      // Safe fallback
+    }
+  }
+}
+
+/**
+ * Gets list of reserved event IDs, filtering for valid strings.
+ */
+export const getReservedEvents = () => {
+  const rawList = readArray(KEYS.RESERVATIONS, LEGACY_KEYS.RESERVATIONS);
+  return Array.isArray(rawList)
+    ? rawList.filter((id) => typeof id === 'string' && id.trim().length > 0)
+    : [];
+};
+
+/**
+ * Checks if a specific event ID is reserved.
+ */
+export const isEventReserved = (eventId) => {
+  if (!eventId) return false;
+  const list = getReservedEvents();
+  return list.includes(String(eventId));
+};
+
+/**
+ * Reserves an event pass without creating duplicates.
+ */
+export const reserveEvent = (eventId) => {
+  if (!eventId) return getReservedEvents();
+  const idStr = String(eventId);
+  const current = getReservedEvents();
+  if (current.includes(idStr)) {
+    return current;
+  }
+  const updated = [...current, idStr];
+  writeItem(KEYS.RESERVATIONS, updated);
+  notifyReservationsChanged();
+  return updated;
+};
+
+/**
+ * Cancels an event reservation.
+ */
+export const cancelEventReservation = (eventId) => {
+  if (!eventId) return getReservedEvents();
+  const idStr = String(eventId);
+  const current = getReservedEvents();
+  const updated = current.filter((id) => id !== idStr);
+  writeItem(KEYS.RESERVATIONS, updated);
+  notifyReservationsChanged();
+  return updated;
+};
+
+/**
+ * Toggles an event reservation status.
+ */
+export const toggleEventReservation = (eventId) => {
+  if (isEventReserved(eventId)) {
+    return cancelEventReservation(eventId);
+  }
+  return reserveEvent(eventId);
+};
+

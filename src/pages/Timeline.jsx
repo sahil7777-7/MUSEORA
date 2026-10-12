@@ -61,7 +61,7 @@ export default function Timeline() {
             }}
             className="no-scrollbar"
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', minWidth: '900px', paddingLeft: '1rem', paddingRight: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: '900px', paddingLeft: '1rem', paddingRight: '1rem' }}>
               {TIMELINE_ERAS.map((era, idx) => {
                 const isActive = activeIdx === idx;
                 return (

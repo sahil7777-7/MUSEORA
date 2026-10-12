@@ -95,6 +95,13 @@ function PaintingCanvasWithTexture({ imageUrl }) {
   // If texture fails to load (CORS or network error), Drei throws to Suspense/ErrorBoundary
   const texture = useTexture(imageUrl);
 
+  useEffect(() => {
+    if (texture) {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.needsUpdate = true;
+    }
+  }, [texture]);
+
   return (
     <mesh position={[0, 0, 0.08]}>
       <planeGeometry args={[2.1, 2.9]} />
@@ -137,6 +144,312 @@ function PaintingFrame({ artwork }) {
   );
 }
 
+function ThinkerModel() {
+  const groupRef = useRef();
+  const torsoRef = useRef();
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      // Dignified, slow, meditative rotation
+      groupRef.current.rotation.y += delta * 0.12;
+    }
+    if (torsoRef.current) {
+      // Subtle contemplative breathing motion
+      const t = state.clock.elapsedTime;
+      torsoRef.current.position.y = 0.28 + Math.sin(t * 1.1) * 0.012;
+      torsoRef.current.rotation.x = 0.32 + Math.sin(t * 1.1) * 0.008;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={[0, -0.3, 0]}>
+      {/* Heavy Granite Plinth Base */}
+      <mesh position={[0, -1.05, 0]}>
+        <boxGeometry args={[1.6, 0.25, 1.6]} />
+        <meshStandardMaterial color="#14120E" roughness={0.7} metalness={0.1} />
+      </mesh>
+      <mesh position={[0, -0.82, 0]}>
+        <boxGeometry args={[1.3, 0.22, 1.3]} />
+        <meshStandardMaterial color="#1A1713" roughness={0.65} metalness={0.15} />
+      </mesh>
+
+      {/* Rough Sculpted Bronze Rock Seat */}
+      <mesh position={[0, -0.35, -0.1]}>
+        <cylinderGeometry args={[0.55, 0.7, 0.7, 16]} />
+        <meshStandardMaterial color="#262018" roughness={0.5} metalness={0.6} />
+      </mesh>
+
+      {/* Seated Thighs and Legs */}
+      <group position={[0, 0, 0.08]}>
+        {/* Right Thigh */}
+        <mesh position={[0.22, 0, 0.16]} rotation={[0.45, 0.1, 0]}>
+          <cylinderGeometry args={[0.13, 0.15, 0.65, 16]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+        {/* Left Thigh (the knee where elbow rests) */}
+        <mesh position={[-0.22, 0, 0.16]} rotation={[0.4, -0.1, 0]}>
+          <cylinderGeometry args={[0.13, 0.15, 0.65, 16]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+        {/* Right Calf */}
+        <mesh position={[0.26, -0.42, 0.35]} rotation={[-0.1, 0, 0]}>
+          <cylinderGeometry args={[0.11, 0.12, 0.6, 16]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+        {/* Left Calf */}
+        <mesh position={[-0.26, -0.42, 0.35]} rotation={[-0.1, 0, 0]}>
+          <cylinderGeometry args={[0.11, 0.12, 0.6, 16]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+      </group>
+
+      {/* Leaning Torso & Head */}
+      <group ref={torsoRef} position={[0, 0.28, -0.05]}>
+        {/* Waist */}
+        <mesh position={[0, 0, 0]}>
+          <cylinderGeometry args={[0.22, 0.2, 0.32, 16]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+        {/* Muscular Hunched Back */}
+        <mesh position={[0, 0.26, 0.08]} rotation={[0.25, 0, 0]}>
+          <boxGeometry args={[0.55, 0.44, 0.32]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+        {/* Broad Shoulders */}
+        <mesh position={[0, 0.46, 0.14]}>
+          <cylinderGeometry args={[0.16, 0.16, 0.72, 16]} rotation={[0, 0, Math.PI / 2]} />
+          <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+        </mesh>
+
+        {/* Head bowed forward in deep thought */}
+        <group position={[0.02, 0.64, 0.34]} rotation={[0.4, 0.05, -0.05]}>
+          <mesh>
+            <sphereGeometry args={[0.2, 24, 24]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+          <mesh position={[0, -0.08, 0.12]}>
+            <boxGeometry args={[0.14, 0.15, 0.12]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+        </group>
+
+        {/* Iconic Right Arm: Elbow anchored on knee, hand supporting chin */}
+        <group position={[0.28, 0.4, 0.14]}>
+          <mesh position={[-0.14, -0.26, 0.18]} rotation={[0.7, -0.4, -0.6]}>
+            <cylinderGeometry args={[0.09, 0.1, 0.48, 16]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+          <mesh position={[-0.22, -0.02, 0.34]} rotation={[-0.8, -0.2, 0.5]}>
+            <cylinderGeometry args={[0.08, 0.09, 0.44, 16]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+          <mesh position={[-0.24, 0.14, 0.36]}>
+            <sphereGeometry args={[0.08, 16, 16]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+        </group>
+
+        {/* Left Arm: Resting casually across left thigh */}
+        <group position={[-0.28, 0.4, 0.14]}>
+          <mesh position={[0.04, -0.22, 0.16]} rotation={[0.5, 0.2, 0.3]}>
+            <cylinderGeometry args={[0.09, 0.1, 0.46, 16]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+          <mesh position={[0.05, -0.42, 0.3]} rotation={[0.2, 0, 0]}>
+            <cylinderGeometry args={[0.08, 0.08, 0.35, 16]} />
+            <meshStandardMaterial color="#2C231A" roughness={0.32} metalness={0.78} />
+          </mesh>
+        </group>
+      </group>
+    </group>
+  );
+}
+
+function NatarajaModel() {
+  const groupRef = useRef();
+  const ringRef = useRef();
+  const lightRef = useRef();
+
+  useFrame((state, delta) => {
+    if (ringRef.current) {
+      // Cosmic rotation of the Prabhamandala (flaming ring of fire)
+      ringRef.current.rotation.z += delta * 0.35;
+    }
+    if (groupRef.current) {
+      // Sacred dynamic cosmic dance floating and gentle rotation
+      groupRef.current.rotation.y += delta * 0.2;
+      groupRef.current.position.y = -0.15 + Math.sin(state.clock.elapsedTime * 2.0) * 0.04;
+    }
+    if (lightRef.current) {
+      // Pulsing cosmic firelight
+      lightRef.current.intensity = 1.2 + Math.sin(state.clock.elapsedTime * 3.5) * 0.4;
+    }
+  });
+
+  const goldBronzeMaterial = (
+    <meshStandardMaterial
+      color="#C6A56B"
+      metalness={0.88}
+      roughness={0.18}
+      emissive="#3D2808"
+      emissiveIntensity={0.25}
+    />
+  );
+
+  return (
+    <group ref={groupRef} position={[0, -0.15, 0]}>
+      {/* Pulsing cosmic firelight center */}
+      <pointLight ref={lightRef} position={[0, 0.3, 0.5]} color="#FFBE5C" distance={4} />
+
+      {/* Lotus Pedestal (Padmapitha) */}
+      <mesh position={[0, -1.1, 0]}>
+        <cylinderGeometry args={[0.75, 0.9, 0.22, 32]} />
+        {goldBronzeMaterial}
+      </mesh>
+      <mesh position={[0, -0.92, 0]}>
+        <cylinderGeometry args={[0.62, 0.72, 0.16, 32]} />
+        {goldBronzeMaterial}
+      </mesh>
+
+      {/* Apasmara (Dwarf of Ignorance) beneath right foot */}
+      <mesh position={[0, -0.78, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.1, 0.12, 0.55, 16]} />
+        <meshStandardMaterial color="#8C6F3D" metalness={0.8} roughness={0.3} />
+      </mesh>
+
+      {/* Prabhamandala (Ring of Cosmic Fire) with flames */}
+      <group position={[0, 0.35, 0]}>
+        <mesh ref={ringRef}>
+          <torusGeometry args={[1.35, 0.04, 16, 64]} />
+          {goldBronzeMaterial}
+          {/* Radiating Agni flames along the outer circle */}
+          {Array.from({ length: 18 }).map((_, i) => {
+            const angle = (i / 18) * Math.PI * 2;
+            const x = Math.cos(angle) * 1.35;
+            const y = Math.sin(angle) * 1.35;
+            return (
+              <mesh
+                key={i}
+                position={[x, y, 0]}
+                rotation={[0, 0, angle - Math.PI / 2]}
+              >
+                <coneGeometry args={[0.065, 0.18, 8]} />
+                <meshStandardMaterial
+                  color="#E5C178"
+                  metalness={0.9}
+                  roughness={0.15}
+                  emissive="#D4AF37"
+                  emissiveIntensity={0.4}
+                />
+              </mesh>
+            );
+          })}
+        </mesh>
+      </group>
+
+      {/* Dancing Deity Silhouette (Lord Shiva) */}
+      <group position={[0, 0, 0]}>
+        {/* Right Standing Leg (Bent, stomping on Apasmara) */}
+        <mesh position={[0.06, -0.48, 0]} rotation={[0, 0, -0.15]}>
+          <cylinderGeometry args={[0.09, 0.1, 0.55, 16]} />
+          {goldBronzeMaterial}
+        </mesh>
+
+        {/* Left Lifted Dancing Leg (Ananda Tandava crossed pose) */}
+        <mesh position={[-0.15, -0.32, 0.22]} rotation={[0.3, 0.4, -1.25]}>
+          <cylinderGeometry args={[0.08, 0.09, 0.65, 16]} />
+          {goldBronzeMaterial}
+        </mesh>
+
+        {/* Dancing Torso */}
+        <mesh position={[0, 0.1, 0]}>
+          <cylinderGeometry args={[0.2, 0.15, 0.55, 16]} />
+          {goldBronzeMaterial}
+        </mesh>
+
+        {/* Crown of Matted Locks (Jatamukuta) & Head */}
+        <group position={[0, 0.55, 0]}>
+          <mesh>
+            <sphereGeometry args={[0.16, 24, 24]} />
+            {goldBronzeMaterial}
+          </mesh>
+          {/* Conical Divine Crown */}
+          <mesh position={[0, 0.22, 0]}>
+            <cylinderGeometry args={[0.06, 0.14, 0.32, 16]} />
+            {goldBronzeMaterial}
+          </mesh>
+          {/* Matted Hair Locks (Jatas) flaring laterally */}
+          <mesh position={[0.32, 0.05, 0]} rotation={[0, 0, 0.2]}>
+            <boxGeometry args={[0.35, 0.04, 0.02]} />
+            {goldBronzeMaterial}
+          </mesh>
+          <mesh position={[-0.32, 0.05, 0]} rotation={[0, 0, -0.2]}>
+            <boxGeometry args={[0.35, 0.04, 0.02]} />
+            {goldBronzeMaterial}
+          </mesh>
+        </group>
+
+        {/* Four Radiating Divine Arms */}
+        {/* Upper Right: Holding the Damaru (Hourglass drum of creation) */}
+        <group position={[0.18, 0.32, 0]}>
+          <mesh position={[0.35, 0.22, 0]} rotation={[0, 0, -0.55]}>
+            <cylinderGeometry args={[0.06, 0.07, 0.55, 16]} />
+            {goldBronzeMaterial}
+          </mesh>
+          {/* Damaru Drum */}
+          <group position={[0.55, 0.42, 0]}>
+            <mesh position={[0, 0.04, 0]} rotation={[Math.PI, 0, 0]}>
+              <coneGeometry args={[0.07, 0.08, 12]} />
+              {goldBronzeMaterial}
+            </mesh>
+            <mesh position={[0, -0.04, 0]}>
+              <coneGeometry args={[0.07, 0.08, 12]} />
+              {goldBronzeMaterial}
+            </mesh>
+          </group>
+        </group>
+
+        {/* Upper Left: Holding Agni (Flame of Dissolution) */}
+        <group position={[-0.18, 0.32, 0]}>
+          <mesh position={[-0.35, 0.22, 0]} rotation={[0, 0, 0.55]}>
+            <cylinderGeometry args={[0.06, 0.07, 0.55, 16]} />
+            {goldBronzeMaterial}
+          </mesh>
+          {/* Flame */}
+          <mesh position={[-0.55, 0.42, 0]}>
+            <dodecahedronGeometry args={[0.07, 0]} />
+            <meshStandardMaterial
+              color="#FFBE5C"
+              emissive="#FF9900"
+              emissiveIntensity={0.8}
+            />
+          </mesh>
+        </group>
+
+        {/* Lower Right: Abhaya Mudra (Gesture of Protection) */}
+        <group position={[0.15, 0.2, 0]}>
+          <mesh position={[0.22, -0.05, 0.16]} rotation={[0.4, 0.3, -0.2]}>
+            <cylinderGeometry args={[0.06, 0.07, 0.42, 16]} />
+            {goldBronzeMaterial}
+          </mesh>
+          <mesh position={[0.28, 0.1, 0.25]}>
+            <boxGeometry args={[0.08, 0.12, 0.03]} />
+            {goldBronzeMaterial}
+          </mesh>
+        </group>
+
+        {/* Lower Left: Gajahasta (Trunk gesture pointing to lifted foot) */}
+        <group position={[-0.15, 0.2, 0]}>
+          <mesh position={[0.08, -0.15, 0.25]} rotation={[-0.3, -0.4, 0.85]}>
+            <cylinderGeometry args={[0.06, 0.07, 0.55, 16]} />
+            {goldBronzeMaterial}
+          </mesh>
+        </group>
+      </group>
+    </group>
+  );
+}
+
 function Mesh3D({ type, artwork }) {
   const meshRef = useRef();
 
@@ -155,6 +468,14 @@ function Mesh3D({ type, artwork }) {
 
   if (type === 'digital-cube') {
     return <NeuralShader />;
+  }
+
+  if (type === 'sculpture-thinker' || artwork?.id === 'the-thinker') {
+    return <ThinkerModel artwork={artwork} />;
+  }
+
+  if (type === 'sculpture-nataraja' || artwork?.id === 'chola-nataraja') {
+    return <NatarajaModel artwork={artwork} />;
   }
 
   // Default bronze sculpture

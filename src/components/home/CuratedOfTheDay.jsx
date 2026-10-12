@@ -5,6 +5,7 @@ import { ARTWORKS } from '../../data/museumData';
 import TiltCard from '../ui/TiltCard';
 import MagneticButton from '../ui/MagneticButton';
 import LazyCard from '../ui/LazyCard';
+import ImageWithFallback from '../ui/ImageWithFallback';
 import { Calendar, Compass } from 'lucide-react';
 
 const fadeInUp = {
@@ -79,21 +80,19 @@ export default function CuratedOfTheDay() {
                 style={{
                   position: 'relative',
                   width: '100%',
+                  height: '420px',
                   minHeight: '350px',
                   maxHeight: '480px',
                   borderRadius: '8px',
                   overflow: 'hidden',
                 }}
               >
-                <div className="skeleton-shimmer-card" style={{ position: 'absolute', inset: 0, borderRadius: 0 }}>
-                  <img
-                    src={artwork.image}
-                    alt=""
-                    onLoad={(e) => e.target.classList.add('loaded')}
-                    className="lazy-image"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                </div>
+                <ImageWithFallback
+                  src={artwork.image}
+                  alt={artwork.title}
+                  fallbackTitle={artwork.title}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                />
                 <div
                   style={{
                     position: 'absolute',

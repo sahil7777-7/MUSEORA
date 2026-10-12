@@ -4,6 +4,7 @@ import PageTransition from '../components/layout/PageTransition';
 import { JOURNAL_POSTS } from '../data/museumData';
 import TiltCard from '../components/ui/TiltCard';
 import LazyCard from '../components/ui/LazyCard';
+import ImageWithFallback from '../components/ui/ImageWithFallback';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function Journal() {
@@ -42,13 +43,12 @@ export default function Journal() {
                   <TiltCard dataCursor="view" style={{ padding: '2.5rem' }}>
                     <div className="museo-grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
                       <div>
-                        <div className="skeleton-shimmer-card" style={{ position: 'relative', height: '320px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(232, 224, 208, 0.15)' }}>
-                          <img
+                        <div style={{ position: 'relative', height: '320px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(232, 224, 208, 0.15)' }}>
+                          <ImageWithFallback
                             src={post.image}
                             alt={post.title}
-                            onLoad={(e) => e.target.classList.add('loaded')}
-                            className="lazy-image journal-card-image"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            fallbackTitle={post.title}
+                            style={{ width: '100%', height: '100%' }}
                           />
                           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0B0A08 0%, transparent 60%)', opacity: 0.6, pointerEvents: 'none' }} />
                         </div>

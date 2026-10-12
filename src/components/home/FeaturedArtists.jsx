@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ARTISTS } from '../../data/museumData';
 import TiltCard from '../ui/TiltCard';
+import ImageWithFallback from '../ui/ImageWithFallback';
 import { ArrowUpRight } from 'lucide-react';
 import { museumAudio } from '../../utils/audio';
 
@@ -104,10 +105,11 @@ export default function FeaturedArtists() {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <img
+                  <ImageWithFallback
                     src={artist.portrait}
-                    alt=""
-                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.65 }}
+                    alt={artist.name}
+                    fallbackTitle={artist.name}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.65 }}
                   />
                   <div
                     style={{

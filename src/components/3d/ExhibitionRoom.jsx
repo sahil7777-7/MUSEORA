@@ -7,16 +7,17 @@ import ParticleField from './ParticleField';
 import { museumAudio } from '../../utils/audio';
 import CanvasLoader from './CanvasLoader';
 
+const ARTWORKS_IN_ROOM = [
+  { id: 'the-thinker', title: 'THE THINKER', pos: [0, 0, -2], type: 'thinker' },
+  { id: 'chola-nataraja', title: 'NATARAJA BRONZE', pos: [-3.5, 0.5, -1], type: 'nataraja' },
+  { id: 'mona-lisa', title: 'MONA LISA', pos: [3.5, 0.8, -1], type: 'frame' },
+  { id: 'venus-de-milo', title: 'VENUS DE MILO', pos: [-2, 0, 2], type: 'marble' },
+  { id: 'digital-consciousness', title: 'NEURAL CONSCIOUSNESS', pos: [2, 0, 2], type: 'digital' }
+];
+
 function GalleryRoomMesh({ onSelectArtwork }) {
   const [hoveredNode, setHoveredNode] = useState(null);
-
-  const artworksInRoom = [
-    { id: 'the-thinker', title: 'THE THINKER', pos: [0, 0, -2], type: 'sculpture' },
-    { id: 'nataraja-bronze', title: 'NATARAJA BRONZE', pos: [-3.5, 0.5, -1], type: 'bronze' },
-    { id: 'mona-lisa', title: 'MONA LISA', pos: [3.5, 0.8, -1], type: 'frame' },
-    { id: 'venus-de-milo', title: 'VENUS DE MILO', pos: [-2, 0, 2], type: 'marble' },
-    { id: 'quantum-hologram', title: 'NEURAL CONSCIOUSNESS', pos: [2, 0, 2], type: 'digital' }
-  ];
+  const artworksInRoom = ARTWORKS_IN_ROOM;
 
   return (
     <group>
@@ -64,7 +65,7 @@ function GalleryRoomMesh({ onSelectArtwork }) {
             onClick={(e) => {
               e.stopPropagation();
               museumAudio.playClickSound();
-              onSelectArtwork && onSelectArtwork(art.id);
+              onSelectArtwork?.(art.id);
             }}
           >
             <spotLight
@@ -80,18 +81,82 @@ function GalleryRoomMesh({ onSelectArtwork }) {
                 <boxGeometry args={[1.6, 2.2, 0.1]} />
                 <meshStandardMaterial color={isHovered ? '#C6A56B' : '#806643'} metalness={0.7} />
               </mesh>
+            ) : art.type === 'thinker' ? (
+              <group>
+                <mesh position={[0, -0.5, 0]}>
+                  <cylinderGeometry args={[0.6, 0.7, 1.2, 32]} />
+                  <meshStandardMaterial color="#1D1A15" roughness={0.3} />
+                </mesh>
+                {/* Miniature The Thinker Seated Pose */}
+                <group position={[0, 0.45, 0]}>
+                  <mesh position={[0, -0.2, 0]}>
+                    <boxGeometry args={[0.5, 0.3, 0.5]} />
+                    <meshStandardMaterial color="#221C16" roughness={0.4} metalness={0.7} />
+                  </mesh>
+                  <mesh position={[0, 0.1, 0]} rotation={[0.3, 0, 0]}>
+                    <boxGeometry args={[0.35, 0.4, 0.28]} />
+                    <meshStandardMaterial color={isHovered ? '#C6A56B' : '#2C231A'} metalness={0.8} roughness={0.3} />
+                  </mesh>
+                  <mesh position={[0, 0.42, 0.12]}>
+                    <sphereGeometry args={[0.12, 16, 16]} />
+                    <meshStandardMaterial color={isHovered ? '#C6A56B' : '#2C231A'} metalness={0.8} roughness={0.3} />
+                  </mesh>
+                </group>
+              </group>
+            ) : art.type === 'nataraja' ? (
+              <group>
+                <mesh position={[0, -0.5, 0]}>
+                  <cylinderGeometry args={[0.6, 0.7, 1.2, 32]} />
+                  <meshStandardMaterial color="#1D1A15" roughness={0.3} />
+                </mesh>
+                {/* Miniature Nataraja Golden Ring of Fire & Dance Pose */}
+                <group position={[0, 0.45, 0]}>
+                  <mesh position={[0, 0.15, 0]}>
+                    <torusGeometry args={[0.42, 0.03, 16, 32]} />
+                    <meshStandardMaterial
+                      color={isHovered ? '#FFE082' : '#C6A56B'}
+                      metalness={0.9}
+                      roughness={0.2}
+                      emissive="#C6A56B"
+                      emissiveIntensity={isHovered ? 0.4 : 0.15}
+                    />
+                  </mesh>
+                  <mesh position={[0, 0.12, 0]}>
+                    <cylinderGeometry args={[0.08, 0.06, 0.45, 12]} />
+                    <meshStandardMaterial color={isHovered ? '#FFE082' : '#C6A56B'} metalness={0.9} roughness={0.2} />
+                  </mesh>
+                  <mesh position={[0, 0.4, 0]}>
+                    <sphereGeometry args={[0.08, 12, 12]} />
+                    <meshStandardMaterial color={isHovered ? '#FFE082' : '#C6A56B'} metalness={0.9} roughness={0.2} />
+                  </mesh>
+                </group>
+              </group>
+            ) : art.type === 'marble' ? (
+              <group>
+                <mesh position={[0, -0.5, 0]}>
+                  <cylinderGeometry args={[0.6, 0.7, 1.2, 32]} />
+                  <meshStandardMaterial color="#1D1A15" roughness={0.3} />
+                </mesh>
+                {/* Marble classical sculpture */}
+                <mesh position={[0, 0.5, 0]}>
+                  <cylinderGeometry args={[0.25, 0.35, 0.8, 24]} />
+                  <meshStandardMaterial color={isHovered ? '#FFF' : '#E8E0D0'} roughness={0.2} metalness={0.05} />
+                </mesh>
+              </group>
             ) : (
               <group>
                 <mesh position={[0, -0.5, 0]}>
                   <cylinderGeometry args={[0.6, 0.7, 1.2, 32]} />
                   <meshStandardMaterial color="#1D1A15" roughness={0.3} />
                 </mesh>
+                {/* Digital consciousness hologram */}
                 <mesh position={[0, 0.5, 0]}>
-                  <torusKnotGeometry args={[0.35, 0.12, 64, 16]} />
+                  <octahedronGeometry args={[0.35, 0]} />
                   <meshStandardMaterial
-                    color={isHovered ? '#C6A56B' : '#E8E0D0'}
-                    metalness={art.type === 'bronze' ? 0.9 : 0.2}
-                    roughness={0.2}
+                    color={isHovered ? '#C6A56B' : '#8EA88C'}
+                    wireframe={true}
+                    emissive={isHovered ? '#C6A56B' : '#8EA88C'}
+                    emissiveIntensity={0.5}
                   />
                 </mesh>
               </group>
@@ -163,13 +228,7 @@ export default function ExhibitionRoom({ onSelectArtwork }) {
   const { isMobile, prefersReducedMotion } = useDeviceCapabilities();
   const enablePostProcessing = !isMobile && !prefersReducedMotion;
   
-  const artworksInRoom = [
-    { id: 'the-thinker', title: 'THE THINKER', pos: [0, 0, -2], type: 'sculpture' },
-    { id: 'nataraja-bronze', title: 'NATARAJA BRONZE', pos: [-3.5, 0.5, -1], type: 'bronze' },
-    { id: 'mona-lisa', title: 'MONA LISA', pos: [3.5, 0.8, -1], type: 'frame' },
-    { id: 'venus-de-milo', title: 'VENUS DE MILO', pos: [-2, 0, 2], type: 'marble' },
-    { id: 'quantum-hologram', title: 'NEURAL CONSCIOUSNESS', pos: [2, 0, 2], type: 'digital' }
-  ];
+  const artworksInRoom = ARTWORKS_IN_ROOM;
 
   return (
     <div

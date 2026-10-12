@@ -6,20 +6,39 @@ export default function LoadingScreen({ onFinish }) {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
+    let doneTimeout;
+    let finishTimeout;
+
+    // Safety watchdog: ensure loading never stalls indefinitely
+    const safetyTimeout = setTimeout(() => {
+      setIsDone(true);
+      onFinish?.();
+    }, 4200);
+
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setIsDone(true), 400);
-          setTimeout(() => onFinish && onFinish(), 1400);
+          doneTimeout = setTimeout(() => setIsDone(true), 400);
+          finishTimeout = setTimeout(() => onFinish?.(), 1400);
           return 100;
         }
         return prev + Math.floor(Math.random() * 8) + 4;
       });
     }, 80);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(safetyTimeout);
+      clearTimeout(doneTimeout);
+      clearTimeout(finishTimeout);
+    };
   }, [onFinish]);
+
+  const handleSkip = () => {
+    setIsDone(true);
+    onFinish?.();
+  };
 
   return (
     <AnimatePresence>
@@ -40,6 +59,31 @@ export default function LoadingScreen({ onFinish }) {
             overflow: 'hidden',
           }}
         >
+          {/* Skip Intro Button */}
+          <button
+            onClick={handleSkip}
+            style={{
+              position: 'absolute',
+              top: '1.5rem',
+              right: '1.5rem',
+              background: 'none',
+              border: '1px solid rgba(198, 165, 107, 0.3)',
+              color: 'var(--gold)',
+              padding: '0.4rem 0.85rem',
+              borderRadius: '9999px',
+              fontSize: '0.65rem',
+              letterSpacing: '0.15em',
+              cursor: 'pointer',
+              zIndex: 30,
+              fontFamily: 'var(--font-mono)',
+              textTransform: 'uppercase',
+              transition: 'all 0.2s ease',
+            }}
+            aria-label="Skip Introduction"
+          >
+            SKIP INTRO ➔
+          </button>
+
           {/* Radial Warm Spotlight Glow */}
           <div
             style={{
